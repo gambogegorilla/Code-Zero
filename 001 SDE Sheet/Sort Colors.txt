@@ -1,0 +1,81 @@
+// TC : O(N), AS : O(1)
+// one-pass solution
+
+class Solution {
+    public void sortColors(int[] nums) {
+        int l_ptr = 0;
+        int r_ptr = nums.length - 1;
+
+        for (int i = l_ptr; i <= r_ptr; i++) {
+            if (nums[i] == 0) {
+                int temp = nums[i];
+                nums[i] = nums[l_ptr];
+                nums[l_ptr] = temp;
+                l_ptr++;
+            }
+            else if (nums[i] == 2) {
+                int temp = nums[i];
+                nums[i] = nums[r_ptr];
+                nums[r_ptr] = temp;
+                i--;
+                r_ptr--;
+            }
+        }
+    }
+}
+
+// TC : O(N), AS : O(1)
+// one-pass solution
+
+class Solution {
+    public void sortColors(int[] nums) { 
+        int low = 0, mid = 0, high = nums.length - 1;
+        
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                int temp = nums[mid];
+                nums[mid] = nums[low];
+                nums[low] = temp;
+
+                low++; mid++;
+            } else if (nums[mid] == 2) {
+                int temp = nums[mid];
+                nums[mid] = nums[high];
+                nums[high] = temp;
+                
+                high--;
+            } else {
+                mid++;
+            }
+        }
+    }
+}
+
+// alter
+// TC : O(N), AS : O(1)
+// two-pass solution
+
+class Solution {
+    public void sortColors(int[] nums) {
+        int l_ptr = 0;
+        int r_ptr = nums.length - 1;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                int temp = nums[i];
+                nums[i] = nums[l_ptr];
+                nums[l_ptr] = temp;
+                l_ptr++;
+            }
+        }
+
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (nums[i] == 2) {
+                int temp = nums[i];
+                nums[i] = nums[r_ptr];
+                nums[r_ptr] = temp;
+                r_ptr--;
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+// TC : O(N), AS : O(N)
+
+// preorder traversal (recursive)
+class Solution {
+    void preorder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        
+        preorder(root.left);
+        preorder(root.right);
+    }
+    public TreeNode invertTree(TreeNode root) {
+        Solution obj = new Solution();
+        obj.preorder(root);
+        return root;
+    }
+}
+
+// level order traversal (iterative)
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null)
+            return root;
+ 
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        while (q.size() > 0) {
+            TreeNode curr = q.peek();
+            q.remove();
+
+            TreeNode temp = curr.left;
+            curr.left = curr.right;
+            curr.right = temp;
+
+            if (curr.left != null)
+                q.add(curr.left);
+            if (curr.right != null)
+                q.add(curr.right);
+        }
+
+        return root;
+    }
+}

@@ -1,0 +1,54 @@
+// TC : O(N), AS : O(1)
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count = 1;
+        int res = -1;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (res == nums[i]) {
+                count++;
+            } else {
+                count--;
+            }
+            
+            if (count == 0) {
+                res = nums[i];
+                count = 1;
+            }   
+        }
+
+        return res;
+    }
+}
+
+// Alter
+// TC : O(N), AS : O(N)
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        HashMap<Integer, Integer> myMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (myMap.containsKey(nums[i])) {
+                myMap.put(nums[i], myMap.get(nums[i]) + 1);
+            } else {
+                myMap.put(nums[i], 1);
+            }
+        }
+
+        int max_count = 0;
+        int res = nums[0];
+        
+        for (Map.Entry<Integer,Integer> mapElement : myMap.entrySet()) {
+            int key = mapElement.getKey();
+            int value = mapElement.getValue();
+
+            if (value > max_count) {
+                res = key;
+                max_count = value;
+            }
+        }
+
+        return res;
+    }
+}

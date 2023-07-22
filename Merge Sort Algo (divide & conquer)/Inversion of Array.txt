@@ -1,0 +1,62 @@
+// TC :O(NlogN), AS : O(N)
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    long merge(long arr[], int begin, int mid, int end) {
+        long count = 0;
+        int size = end - begin + 1;
+        long[] temp = new long[size];
+        
+        int ptr1 = begin;
+        int ptr2 = mid + 1;
+        int ptr3 = 0;
+        
+        while (ptr1 <= mid && ptr2 <= end) {
+            if (arr[ptr1] <= arr[ptr2]) {
+                temp[ptr3++] = arr[ptr1++];
+            } else {
+                temp[ptr3++] = arr[ptr2++];
+                count += (mid - ptr1) + 1;
+            }
+        }
+        
+        while (ptr1 <= mid) {
+            temp[ptr3++] = arr[ptr1++];
+        }
+        while (ptr2 <= end) {
+            temp[ptr3++] = arr[ptr2++];
+        }
+        
+        ptr3 = 0;
+        
+        for (int i = begin; i <= end; i++) {
+            arr[i] = temp[ptr3++];
+        }
+
+        return count;
+    }
+
+    long mergeSort(long arr[], int begin, int end) {
+        long count = 0;
+
+        if (begin >= end) {
+            return count;
+        }
+        
+        int mid = begin + (end - begin) / 2;
+        
+        count += mergeSort(arr, begin, mid);
+        count += mergeSort(arr, mid + 1, end);
+        
+        count += merge(arr, begin, mid, end);
+
+        return count;
+    }
+
+    public static long getInversions(long arr[], int n) {
+        Solution obj = new Solution();
+        long res = obj.mergeSort(arr, 0, n - 1);
+        return res;
+    }
+}

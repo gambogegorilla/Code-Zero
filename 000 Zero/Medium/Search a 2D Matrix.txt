@@ -1,0 +1,31 @@
+// TC : O(log(M * N)), AS : (1)
+
+class Solution {
+    int[] binarySearch(int[][] matrix, int cols, int rows, int target) {
+        int left = 0;
+        int right = (cols * rows) - 1;
+        int mid;
+        
+        while (left <= right) {
+            mid = left  + (right - left) / 2;
+            if (matrix[mid / cols][mid % cols] == target) {
+                return new int[] {mid / cols, mid % cols};
+            } else if (matrix[mid / cols][mid % cols] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return new int[] {-1, -1};
+    }
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int[] res = binarySearch(matrix, matrix[0].length, matrix.length, target);
+
+        if (res[0] != -1 && res[1] != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

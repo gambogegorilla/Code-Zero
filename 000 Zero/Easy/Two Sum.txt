@@ -1,0 +1,54 @@
+// TC : O(N), AS : O(N)
+// hashing
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> myMap = new HashMap<>();
+        int[] resIndices = new int [2];
+        resIndices[0] = -1;
+        resIndices[1] = -1;
+
+        for (int i = 0; i < nums.length; i++) {
+            myMap.put(nums[i], i);
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            int res = target - nums[i];
+
+            if (myMap.containsKey(res) && myMap.get(res) != i) {
+                resIndices[0] = i;
+                resIndices[1] = myMap.get(res);
+                break;
+            }
+        }
+
+        return resIndices;
+    }
+}
+
+// TC : O(NlogN), AS : O(1)
+// two pointer
+
+import java.util.Arrays;
+
+public class Solution {
+    public static String read(int n, int[] book, int target){
+        Arrays.sort(book);
+
+        int leftPtr = 0;
+        int rightPtr = book.length - 1;
+
+        while (leftPtr < rightPtr) {
+            int currentSum = book[leftPtr] + book[rightPtr];
+            if (currentSum == target) {
+                return "YES";
+            } else if (currentSum > target) {
+                rightPtr--;
+            } else {
+                leftPtr++;
+            }
+        }
+
+        return "NO";
+    }
+}

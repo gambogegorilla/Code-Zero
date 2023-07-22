@@ -1,0 +1,64 @@
+// TC : O(N), AS : O(1)
+
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+
+public class Solution {
+
+    public static int[] missingAndRepeating(ArrayList<Integer> arr, int n) {
+        long sum = 0;
+        long squaredSum = 0;
+
+        for (int i = 0; i < arr.size(); i++) {
+            sum += arr.get(i);
+            squaredSum += (long) arr.get(i) * (long) arr.get(i);
+        }
+
+        long sumOfNatNums = (long) n * ((long) n + 1) / 2;
+        long sumOfSquaredNatNums = (long) n * ((long) n + 1) * (2 * (long) n + 1) / 6;
+        
+        long diffOfBothNums = (sum - sumOfNatNums);
+        long sumOfBothNums = (squaredSum - sumOfSquaredNatNums) / diffOfBothNums;
+
+        long repeated = (sumOfBothNums - diffOfBothNums) / 2;
+        long missing = (sumOfBothNums + diffOfBothNums) / 2;
+        int[] res = {(int) repeated, (int) missing};
+        
+        return res;
+    }
+}
+
+// alter
+// TC : O(N), AS : O(N)
+
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+
+public class Solution {
+
+    public static int[] missingAndRepeating(ArrayList<Integer> arr, int n) {
+        HashSet<Integer> mySet = new HashSet<>();
+
+        int repeated = -1, missing = -1;
+
+        for (int i = 0; i < arr.size(); i++) {
+            if(mySet.contains(arr.get(i))) {
+                repeated = arr.get(i);
+            } else {
+                mySet.add(arr.get(i));
+            }
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if(!mySet.contains(i)) {
+                missing = i;
+            }
+        }
+
+        int[] res = {missing, repeated};
+
+        return res;
+    }
+}

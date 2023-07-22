@@ -1,0 +1,53 @@
+//TC : O(N^3), AS : O(1)
+
+
+class Solution {
+    public static int nCr(int n, int r) {
+        long val = 1;
+
+        for (int i = 0; i < r; i++) {
+            val *= (n - i);
+            val /= (i + 1);
+        }
+        return (int) val;
+    }
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<>();
+
+        for (int i = 1; i <= numRows; i++) {
+            List<Integer> temp = new ArrayList<>();
+            for (int j = 1; j <= i; j++) {
+                temp.add(nCr(i - 1, j - 1));
+            }
+            res.add(temp);
+        }
+        return res;
+    }
+}
+
+// alter
+//TC : O(N^3), AS : O(1)
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        ArrayList<Integer> defArr = new ArrayList<Integer>();
+        defArr.add(1);
+
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        res.add(defArr);
+
+        for (int i = 1; i < numRows; i++) {
+            ArrayList<Integer> temp = (ArrayList)defArr.clone();
+
+            for (int j = 1; j < i; j++) {
+                temp.add(res.get(i - 1).get(j - 1) + res.get(i - 1).get(j));
+            }
+
+            temp.add(1);
+
+            res.add(temp);
+        }
+
+        return res;
+    }
+}

@@ -1,0 +1,39 @@
+// TC : O(N), AS : O(1)
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int count = 0;
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] == nums[i + 1]) {
+                count++;
+            } else {
+                nums[i - count + 1] = nums[i + 1];
+            }
+        }
+
+        return nums.length - count;
+    }
+}
+
+// Alter
+// TC : O(N), AS : O(N)
+
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        Set<Integer> my_set = new LinkedHashSet<Integer>();
+
+        for (int i = 0; i < nums.length; i++) {
+            my_set.add(nums[i]);
+        }
+
+        int idx = 0;
+
+        for (int elem : my_set) {
+            nums[idx++] = elem;
+        }
+
+        return my_set.size();
+    }
+}

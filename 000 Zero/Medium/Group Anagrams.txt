@@ -1,0 +1,78 @@
+// TC : O(N * KlogK), AS : O(N)
+
+class Solution {
+
+    public static String sortString(String inputString)
+    {
+        char tempArray[] = inputString.toCharArray();
+        Arrays.sort(tempArray);
+        return new String(tempArray);
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, ArrayList<String>> my_map = new HashMap<>();
+
+        for (int i = 0; i < strs.length; i++) {
+            String str_sorted = sortString(strs[i]);
+            Boolean wordIsNotPresentInMap = !my_map.containsKey(str_sorted);
+            
+            if (wordIsNotPresentInMap) {
+                my_map.put(str_sorted, new ArrayList<>());
+            }
+            my_map.get(str_sorted).add(strs[i]);
+        }
+
+        return new ArrayList<>(my_map.values());
+    }
+}
+
+// Alter
+// TC : O(N * KlogK), AS : O(N)
+
+
+class Solution {
+
+    public static String sortString(String inputString)
+    {
+        char tempArray[] = inputString.toCharArray();
+        Arrays.sort(tempArray);
+        return new String(tempArray);
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        String[] strs_copy = strs.clone();
+        List<List<String>> res_list = new ArrayList<List<String>>();
+
+        HashMap<String, ArrayList<Integer>> my_map = new HashMap<String, ArrayList<Integer>>();
+
+        for (int i = 0; i < strs.length; i++) {
+            strs[i] = sortString(strs[i]);
+        }
+
+        for (int i = 0; i < strs.length; i++) {
+            if (my_map.containsKey(strs[i])) {
+                ArrayList<Integer> updated_list = my_map.get(strs[i]);
+                updated_list.add(i);
+                my_map.put(strs[i], updated_list);
+            } else {
+                ArrayList<Integer> temp = new ArrayList<Integer>();
+                temp.add(i);
+                my_map.put(strs[i], temp);
+            }
+        }
+
+        for (Map.Entry<String,  ArrayList<Integer>> itr : my_map.entrySet()) {
+            String key = itr.getKey();
+            ArrayList<Integer> curr_list = itr.getValue();
+            ArrayList<String> strs_list = new ArrayList<String>();
+
+            for (int i = 0; i < curr_list.size(); i++) {
+                strs_list.add(strs_copy[curr_list.get(i)]);
+            }
+
+            res_list.add(strs_list);
+        }
+
+        return res_list;
+    }
+}

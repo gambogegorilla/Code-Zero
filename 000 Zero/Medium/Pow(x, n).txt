@@ -1,0 +1,59 @@
+// TC : O(logN), AS : O(1)
+
+class Solution {
+    public double myPow(double x, int n) {
+        double num = x;
+        long pow = n;
+        double res = 1.0;
+        Boolean isNegPow = pow < 0 ? true : false;
+        
+        if (isNegPow) {
+            pow *= -1.0;
+        }
+ 
+        while (pow > 0) {
+            if ((pow & 1) == 0) { // same as pow % 2 == 0
+                num *= num;
+                pow >>= 1; // same as pow /= 2;
+            } else {
+                res *= num;
+                pow -= 1;
+            }
+        }
+
+        if (isNegPow) {
+            res = (double) 1.0 / (double) res;
+        }
+
+        return res;
+    }
+}
+
+class Solution {
+    double binExpo(double num, int pow, Boolean isNegPow) {
+        double mod = 10e7 + 9;
+        double res = 1.0;
+ 
+        while (pow > 0) {
+ 
+            if (pow % 2 != 0) {
+                res = res * num;
+            }
+ 
+            pow /= 2;
+
+            if (isNegPow) {
+                num /= num;
+            } else {
+                num *= num;
+            }
+        }
+        return res % mod;
+    }
+    public double myPow(double x, int n) {
+        Boolean isNegPow = n < 0 ? true : false;
+        double res = binExpo(x, Math.abs(n), isNegPow);
+
+        return res;
+    }
+}
