@@ -1,0 +1,68 @@
+// TC : O(N), AS : O(N)
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        Set<Integer> mySet = new HashSet<>();
+      
+        for (int i = 0; i < nums.length; i++) {
+            mySet.add(nums[i]);
+        }
+
+        int maxConseq = 1;
+        int conseq = 1;
+
+        for (int itr : mySet) {
+            conseq = 1;
+            if (!mySet.contains(itr - 1)) {
+                int elem = itr;
+
+                while (mySet.contains(elem + 1)) {
+                    conseq++;
+                    elem++;
+                }
+            }
+            maxConseq = Math.max(maxConseq, conseq);
+        }
+
+        return maxConseq;
+    }
+}
+
+
+// TC : O(NlogN), AS : O(N)
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        
+        Set<Integer> mySet = new TreeSet<>();
+        List<Integer> myList = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            mySet.add(nums[i]);
+        }
+        for (int itr : mySet) {
+            myList.add(itr);
+        }
+
+        int maxConseq = 1;
+        int conseq = 1;
+
+        for (int i = 0; i < myList.size() - 1; i++) {
+            conseq = 1;
+            while (i < myList.size() - 1 && myList.get(i) + 1 == myList.get(i + 1)) {
+                conseq++;
+                i++;
+            }
+            maxConseq = Math.max(maxConseq, conseq);
+        }
+
+        return maxConseq;
+    }
+}
